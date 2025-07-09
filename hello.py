@@ -1,5 +1,5 @@
 import git
-from flask import Flask, reqeust, render_template, url_for, redirect, flash
+from flask import Flask, request, render_template, url_for, redirect, flash
 from forms import RegistrationForm
 
 app = Flask(__name__)

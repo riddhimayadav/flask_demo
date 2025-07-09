@@ -1,4 +1,5 @@
-from flask import Flask, render_template, url_for, redirect, flash
+import git
+from flask import Flask, reqeust, render_template, url_for, redirect, flash
 from forms import RegistrationForm
 
 app = Flask(__name__)
@@ -17,6 +18,17 @@ def register():
         flash(f'Account created for {form.username.data}!', 'success')
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route("/update_server", methods=['POST'])
+def webhook():
+    if request.method == 'POST':
+        repo = git.Repo('/home/deploydemo/flask_demo')
+        origin = repo.remotes.origin
+        origin.pull()
+        return 'Updated PythonAnywhere successfully', 200
+    else:
+        return 'Wrong event type', 400
 
 
 if __name__ == '__main__':
